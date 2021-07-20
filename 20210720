@@ -1,0 +1,43 @@
+# 파이썬을 공부한 첫 날 입니다. 크롤링을 해보았습니다.
+
+# 크롤링 라이브러리 임포트
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+
+url = urlopen('https://www.naver.com/')
+bsObject = BeautifulSoup(url, "html.parser")
+
+mList = bsObject.find_all("a",{"class":"nav"})
+print(mList,'\n',len(mList))
+
+for i in range(len(mList)):
+    print(mList[i].text)
+    
+nList = bsObject.find_all("a",{"class":"thumb"})
+print(nList,'\n',len(nList))
+
+newList = [] # ArrayList랑 똑같은 기능
+for i in range(len(nList)):
+    newList.append(nList[i].find("img")["alt"]) # List에 추가하는 기능
+    
+print(newList) # 새로운 List 출력
+
+urlA = urlopen('https://www.aladin.co.kr/shop/common/wbest.aspx?BranchType=1&start=we')
+bsObject = BeautifulSoup(urlA, "html.parser")
+
+aList = bsObject.find_all("div",{"class":"ss_book_list"})
+print(aList, len(aList))
+
+newList = []
+for i in range(len(aList)):
+    newList.append(aList[i].find("b"))
+print(newList)
+
+bList = bsObject.find_all("img",{"class":"i_cover"})
+print(bList, len(bList))
+
+newList = []
+for i in range(len(bList)):
+    newList.append(bList[i].find("src"))
+print(newList)
+# 원하는 이미지 src만 뽑는게 잘 되지 않았습니다...
